@@ -1,4 +1,4 @@
-- name: Preparing Rasberry Pi OS
+- name: Prepare Rasberry Pi
   hosts: pi
   gather_facts: no
   tasks:
