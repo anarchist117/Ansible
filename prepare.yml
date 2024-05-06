@@ -1,0 +1,69 @@
+- name: Preparing Rasberry Pi OS
+  hosts: pi
+  gather_facts: no
+  tasks:
+    - name: FAN speed change
+      lineinfile:
+        dest: /boot/firmware/config.txt
+        line: '{{ item }}'
+      with_items:
+        - '# PoE+ Hat Fan Speed Control'
+        - dtoverlay=rpi-poe-plus
+        - dtparam=poe_fan_temp0=60000
+        - dtparam=poe_fan_temp1=65000
+        - dtparam=poe_fan_temp2=70000
+        - dtparam=poe_fan_temp3=75000
+
+    - name: Update and Upgrade apt packeges
+      apt:
+        update_cache: yes
+        upgrade: yes
+
+    - name: Reboot Rasberry Pi
+      reboot:
+
+
+
+- name: Prepare Docker
+  hosts: pi
+  tasks:
+    - name: Install required packages
+      apt:
+        name:
+          - ca-certificates
+          - curl
+        state: present
+
+    - name: Create directory for Docker's GPG key
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: 0755
+
+    - name: Download Docker's official GPG key
+      get_url:
+        url: https://download.docker.com/linux/debian/gpg
+        dest: /etc/apt/keyrings/docker.asc
+        mode: 'a+r'
+
+    - name: Add Docker repository to APT sources
+      tags: repo
+      apt_repository:
+        repo: >-
+          deb [arch=arm64
+          signed-by=/etc/apt/keyrings/docker.asc]
+          https://download.docker.com/linux/debian {{ ansible_lsb.codename }} stable
+        filename: docker
+        state: present
+
+    - name: Install Docker
+      tags: docker
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        update_cache: yes
+        state: present
