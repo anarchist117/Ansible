@@ -6,7 +6,7 @@ apt install ansible
 ```
 /etc/ansible/hosts
 ```
-# 2.1 Check connection
+### Check connection
 ```
 ansible all -m ping
 ```
