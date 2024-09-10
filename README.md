@@ -16,9 +16,6 @@ ansible all -m ping
 # 3. Run Ansible
 ### playbook
 ```
-ansible-playbook update.yml
-```
-```
 ansible-playbook update.yml pi.yml docker.yml
 ```
 ### command
