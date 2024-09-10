@@ -16,6 +16,9 @@ ansible all -m ping
 ```
 ansible-playbook update.yml
 ```
+```
+ansible-playbook update.yml pi.yml docker.yml
+```
 ### command
 ```
 ansible all -m command -a 'uptime -p'
