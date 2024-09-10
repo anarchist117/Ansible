@@ -1,17 +1,19 @@
-# Install Ansible
+# 1. Install Ansible
 ```
 apt update
 apt install software-properties-common
 add-apt-repository --yes --update ppa:ansible/ansible
 apt install ansible
 ```
-
-# Check connection
+# 2. Edit inventory and check connection
+```
+/etc/ansible/hosts
+```
 ```
 ansible all -m ping
 ```
 
-# Run Ansible
+# 3. Run Ansible
 ### playbook
 ```
 ansible-playbook update.yml
