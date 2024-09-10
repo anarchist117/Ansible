@@ -1,0 +1,43 @@
+- name: Install Docker
+  hosts: pi
+  tasks:
+    - name: Install required packages
+      apt:
+        name:
+          - ca-certificates
+          - curl
+        state: present
+
+    - name: Create directory for Docker's GPG key
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: 0755
+
+    - name: Download Docker's official GPG key
+      get_url:
+        url: https://download.docker.com/linux/debian/gpg
+        dest: /etc/apt/keyrings/docker.asc
+        mode: 'a+r'
+
+    - name: Add Docker repository to APT sources
+      tags: repo
+      apt_repository:
+        repo: >-
+          deb [arch=arm64
+          signed-by=/etc/apt/keyrings/docker.asc]
+          https://download.docker.com/linux/debian {{ ansible_lsb.codename }} stable
+        filename: docker
+        state: present
+
+    - name: Install package
+      tags: docker
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        update_cache: yes
+        state: present
