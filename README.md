@@ -8,12 +8,17 @@ apt install ansible
 
 # Check connection
 ```
-ansible -i inventory.ini -m ping all
+ansible all -m ping
 ```
 
 # Run ansible playbook
 ```
-ansible-playbook -i inventory.ini update.yml
+ansible-playbook -i inventory update.yml
+```
+
+# Run custom command
+```
+ansible all -m command -a 'uptime -p'
 ```
 
 # Documentation
