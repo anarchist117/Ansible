@@ -1,0 +1,18 @@
+- name: Prepare Rasberry Pi
+  hosts: pi
+  gather_facts: no
+  tasks:
+    - name: FAN speed change
+      lineinfile:
+        dest: /boot/firmware/config.txt
+        line: '{{ item }}'
+      with_items:
+        - '# PoE+ Hat Fan Speed Control'
+        - dtoverlay=rpi-poe-plus
+        - dtparam=poe_fan_temp0=60000
+        - dtparam=poe_fan_temp1=65000
+        - dtparam=poe_fan_temp2=70000
+        - dtparam=poe_fan_temp3=75000
+        
+    - name: Reboot Rasberry Pi
+      reboot:
