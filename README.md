@@ -12,12 +12,12 @@ ansible all -m ping
 ```
 
 # Run Ansible
+### playbook
 ```
-# playbook
 ansible-playbook update.yml
 ```
+### command
 ```
-# command
 ansible all -m command -a 'uptime -p'
 ```
 
