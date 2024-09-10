@@ -11,13 +11,12 @@ apt install ansible
 ansible all -m ping
 ```
 
-# Run ansible playbook
+# Run Ansible
 ```
+# playbook
 ansible-playbook update.yml
-```
 
-# Run custom command
-```
+# command
 ansible all -m command -a 'uptime -p'
 ```
 
