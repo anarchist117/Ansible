@@ -13,7 +13,7 @@ ansible all -m ping
 
 # Run ansible playbook
 ```
-ansible-playbook -i inventory.ini update.yml
+ansible-playbook update.yml
 ```
 
 # Run custom command
