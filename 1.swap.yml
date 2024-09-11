@@ -1,0 +1,19 @@
+---
+- name: Disable swap
+  hosts: control,node
+  gather_facts: no
+  tasks:
+
+    - name: (1/3) swap off
+      command: swapoff -a
+
+    - name: (2/3) fstab modified
+      mount:
+        path: none
+        fstype: swap
+        state: absent
+
+    - name: (3/3) swap.img remove
+      file:
+        path: /swap.img
+        state: absent
