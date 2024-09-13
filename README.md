@@ -1,5 +1,8 @@
 # 1. Install Ansible
 ```
+apt update
+apt install software-properties-common
+add-apt-repository --yes --update ppa:ansible/ansible
 apt install ansible
 ```
 # 2. Edit inventory
