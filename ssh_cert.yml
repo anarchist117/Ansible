@@ -1,1 +1,12 @@
-
+---
+- name: SSH Certificate-Based Authentication
+  hosts: all
+  become: true
+  tasks:
+    - name: Copy authorized_keys to target hosts
+      copy:
+        src: /root/.ssh/authorized_keys
+        dest: /root/.ssh/authorized_keys
+        owner: root
+        group: root
+        mode: '0600'
