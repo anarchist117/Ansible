@@ -1,6 +1,7 @@
 ---
 - name: SSH Certificate-Based Authentication
   hosts: all
+  gather_facts: no
   become: true
   tasks:
     - name: Copy authorized_keys to target hosts
