@@ -1,0 +1,24 @@
+---
+- name: Manage dphys-swapfile
+  hosts: control
+  gather_facts: no
+  tasks:
+    - name: Stop dphys-swapfile service
+      service:
+        name: dphys-swapfile
+        state: stopped
+
+    - name: Disable dphys-swapfile service
+      service:
+        name: dphys-swapfile
+        enabled: no
+
+    - name: Uninstall dphys-swapfile package
+      package:
+        name: dphys-swapfile
+        state: absent
+
+    - name: Remove swapfile if exists
+      file:
+        path: /var/swap
+        state: absent
