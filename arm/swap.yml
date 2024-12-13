@@ -1,6 +1,6 @@
 ---
 - name: Manage dphys-swapfile
-  hosts: control
+  hosts: all
   gather_facts: no
   tasks:
     - name: Stop dphys-swapfile service
