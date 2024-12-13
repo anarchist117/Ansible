@@ -1,4 +1,4 @@
-```
+---
 - name: Read cmdline.txt
   slurp:
     src: /boot/firmware/cmdline.txt
