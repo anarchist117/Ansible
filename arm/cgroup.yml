@@ -1,0 +1,12 @@
+---
+- name: Enable cgroup v1
+  hosts: all
+  tasks:
+    - name: Add cgroup in /boot/firmware/cmdline.txt
+      lineinfile:
+        path: /boot/firmware/cmdline.txt
+        regexp: '^.*$'
+        line: "{{ current_line }} cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1"
+        backrefs: yes
+      vars:
+        current_line: "{{ lookup('file', '/boot/firmware/cmdline.txt') }}"
