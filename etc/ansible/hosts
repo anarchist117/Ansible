@@ -1,5 +1,8 @@
 [pi]
-pi[1-4]
+pi1
+pi2
+pi3
+pi4
 
 [mgmt]
 pi5
