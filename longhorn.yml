@@ -5,10 +5,12 @@
   tasks:
     - name: Installation Requirements
       apt:
-        update_cache: yes
         name:
+          - bash
+          - curl
+          - grep
+          - util-linux    # findmnt, lsblk, blkid
+          - gawk          # awk
           - open-iscsi
           - nfs-common
-          - util-linux
-          - gawk
         state: present
