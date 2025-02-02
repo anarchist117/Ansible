@@ -1,0 +1,14 @@
+---
+- name: Install Longhorn
+  hosts: all
+
+  tasks:
+    - name: Installation Requirements 
+      apt:
+        update_cache: yes
+        name:
+          - open-iscsi
+          - nfs-common
+          - util-linux
+          - gawk
+        state: present
