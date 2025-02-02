@@ -13,4 +13,11 @@
           - gawk          # awk
           - open-iscsi
           - nfs-common
+          - jq
+          - cryptsetup
+        state: present
+
+    - name: Enable iscsi_tcp module
+      modprobe:
+        name: iscsi_tcp
         state: present
