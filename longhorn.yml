@@ -17,7 +17,10 @@
           - cryptsetup
         state: present
 
-    - name: Enable iscsi_tcp module
+    - name: Enable kernel modules
       modprobe:
-        name: iscsi_tcp
+        name: "{{ item }}"
         state: present
+      loop:
+        - iscsi_tcp
+        - dm_crypt
