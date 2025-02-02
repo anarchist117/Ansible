@@ -24,3 +24,14 @@
       loop:
         - iscsi_tcp
         - dm_crypt
+
+    - name: Startup kernel modules
+      copy:
+        dest: "/etc/modules-load.d/{{ item }}.conf"
+        content: "{{ item }}"
+        owner: root
+        group: root
+        mode: '0644'
+      loop:
+        - iscsi_tcp
+        - dm_crypt
