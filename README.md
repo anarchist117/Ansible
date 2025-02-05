@@ -25,4 +25,4 @@ ansible all -m command -a 'uptime -p'
 ```
 
 # Documentation
-https://docs.ansible.com/ansible/latest/installation_guide/installation_distros.html
+[Installing Ansible](https://docs.ansible.com/ansible/latest/installation_guide/installation_distros.html#installing-ansible-on-ubuntu)
