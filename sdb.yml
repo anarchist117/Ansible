@@ -19,7 +19,7 @@
     - name: 4/4 Change /etc/fstab
       lineinfile:
         path: /etc/fstab
-        line: "/dev/sdb1 /mnt/data ext4 defaults 0 0"
+        line: "/dev/sdb1 /mnt/data ext4 defaults 0 2"
         state: present
 
     - name: 5/5 Mount disk
