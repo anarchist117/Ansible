@@ -1,0 +1,26 @@
+- name: Prepare /dev/sdb
+  hosts: ubuntu
+  tasks:
+
+    - name: 1/5 Creaete partition
+      command: echo -e "g\nn\n\n\n\nw" | fdisk /dev/sdb
+
+    - name: 2/5 Create filesystem
+      filesystem:
+        fstype: ext4
+        dev: /dev/sdb1
+
+    - name: 3/5 Create mountpoint
+      file:
+        path: /mnt/data
+        state: directory
+        mode: '0755'
+
+    - name: 4/4 Change /etc/fstab
+      lineinfile:
+        path: /etc/fstab
+        line: "/dev/sdb1 /mnt/data ext4 defaults 0 0"
+        state: present
+
+    - name: 5/5 Mount disk
+      command: mount -a
