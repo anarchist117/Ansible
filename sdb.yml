@@ -2,25 +2,31 @@
   hosts: ubuntu
   tasks:
 
-    - name: 1/5 Creaete partition
+    - name: 1/6 Creaete partition
       command: echo -e "g\nn\n\n\n\nw" | fdisk /dev/sdb
+      changed_when: true
 
-    - name: 2/5 Create filesystem
+    - name: 2/6 Create filesystem
       filesystem:
         fstype: ext4
         dev: /dev/sdb1
 
-    - name: 3/5 Create mountpoint
+    - name: 3/6 Get UUID
+      command: blkid -s UUID -o value /dev/sdb1
+      register: disk_uuid
+      changed_when: false
+
+    - name: 4/6 Create mountpoint
       file:
         path: /mnt/data
         state: directory
         mode: '0755'
 
-    - name: 4/4 Change /etc/fstab
+    - name: 5/6 Change /etc/fstab
       lineinfile:
         path: /etc/fstab
-        line: "/dev/sdb1 /mnt/data ext4 defaults 0 2"
+        line: "UUID={{ disk_uuid.stdout }} /mnt/data ext4 defaults 0 2"
         state: present
 
-    - name: 5/5 Mount disk
+    - name: 6/6 Mount disk
       command: mount -a
