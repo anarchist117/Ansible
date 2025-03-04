@@ -1,6 +1,6 @@
 ---
 - name: Disable swap
-  hosts: control,worker
+  hosts: all
   gather_facts: no
   tasks:
 
