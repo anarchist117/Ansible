@@ -1,0 +1,45 @@
+- name: vCenter
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Check Datacenter
+      community.vmware.vmware_datacenter:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: no
+        datacenter_name: "{{ datacenter_name }}"
+        state: present
+      delegate_to: localhost
+
+
+
+- name: Servers
+  hosts: hypervisors
+  gather_facts: no
+  tasks:
+    - name: Check Cluster
+      community.vmware.vmware_cluster:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: no
+        datacenter_name: "{{ datacenter_name }}"
+        cluster_name: "{{ cluster_name }}"
+        state: present
+      delegate_to: localhost
+      failed_when: false
+
+    - name: Add ESXi Host to vCenter
+      community.vmware.vmware_host:
+        hostname: '{{ vcenter_hostname }}'
+        username: '{{ vcenter_username }}'
+        password: '{{ vcenter_password }}'
+        validate_certs: no
+        esxi_hostname: '{{ esxi_hostname }}'
+        esxi_username: '{{ esxi_username }}'
+        esxi_password: '{{ esxi_password }}'
+        datacenter: '{{ datacenter_name }}'
+        cluster: '{{ cluster_name }}'
+        state: present
+      delegate_to: localhost
