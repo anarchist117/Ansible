@@ -1,0 +1,57 @@
+- name: vDS and Port Groups
+  hosts: localhost
+  gather_facts: no
+  vars:
+    vDS:
+      - name: Data
+        mtu: 1500
+        pgroups:
+          - name: Host
+            vlan: 10
+          - name: VM
+            vlan: 100
+      - name: Storage
+        mtu: 9000
+        pgroups:
+          - name: iSCSI1
+            vlan: 171
+          - name: iSCSI2
+            vlan: 172
+          - name: vMotion
+            vlan: 180
+          - name: vSAN
+            vlan: 200
+
+  tasks:
+    - name: vDS
+      community.vmware.vmware_dvswitch:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: no
+        datacenter: "{{ datacenter_name }}"
+        switch_name: "{{ item.name }}"
+        mtu: "{{ item.mtu }}"
+        uplink_quantity: 2
+        discovery_protocol: lldp
+        state: present
+      loop: "{{ vDS }}"
+      loop_control:
+        loop_var: item
+        label: "{{ item.name }}"
+
+    - name: Port Groups
+      community.vmware.vmware_dvs_portgroup:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: no
+        switch_name: "{{ item.0.name }}"
+        portgroup_name: "{{ item.1.name }}"
+        vlan_id: "{{ item.1.vlan }}"
+        port_binding: ephemeral
+        state: present
+      loop: "{{ vDS | subelements('pgroups') }}"
+      loop_control:
+        loop_var: item
+        label: "{{ item.0.name }} - {{ item.1.name }}"
