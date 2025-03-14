@@ -2,7 +2,7 @@
   hosts: localhost
   gather_facts: no
   tasks:
-    - name: Check Datacenter
+    - name: Datacenter
       community.vmware.vmware_datacenter:
         hostname: "{{ vcenter_hostname }}"
         username: "{{ vcenter_username }}"
@@ -18,7 +18,7 @@
   hosts: hypervisors
   gather_facts: no
   tasks:
-    - name: Check Cluster
+    - name: Cluster
       community.vmware.vmware_cluster:
         hostname: "{{ vcenter_hostname }}"
         username: "{{ vcenter_username }}"
