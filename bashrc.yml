@@ -1,0 +1,11 @@
+- name: bashrc
+  hosts: control
+  gather_facts: no
+  tasks:
+    - name: Append lines to .bashrc
+      ansible.builtin.shell: echo "{{ item }}" >> /root/.bashrc
+      loop:
+        - "export EDITOR=nano"
+        - "alias ll='ls -la'"
+        - "alias k=kubectl"
+        - "complete -F __start_kubectl k"
