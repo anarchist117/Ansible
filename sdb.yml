@@ -1,32 +1,38 @@
 - name: Prepare /dev/sdb
-  hosts: ubuntu
+  hosts: control
   tasks:
+    - name: 1/5 GPT
+      parted:
+        device: /dev/sdb
+        number: 1
+        label: gpt
+        state: present
 
-    - name: 1/6 Creaete partition
-      command: echo -e "g\nn\n\n\n\nw" | fdisk /dev/sdb
-      changed_when: true
+    - name: 2/5 Partition
+      parted:
+        device: /dev/sdb
+        number: 1
+        state: present
+        part_type: primary
+        fs_type: ext4
+        part_start: 1MiB
+        part_end: 100%
 
-    - name: 2/6 Create filesystem
+    - name: 2/5 Filesystem
       filesystem:
         fstype: ext4
         dev: /dev/sdb1
 
-    - name: 3/6 Get UUID
-      command: blkid -s UUID -o value /dev/sdb1
-      register: disk_uuid
-      changed_when: false
-
-    - name: 4/6 Create mountpoint
+    - name: 3/5 Mountpoint
       file:
         path: /mnt/data
         state: directory
         mode: '0755'
 
-    - name: 5/6 Change /etc/fstab
-      lineinfile:
-        path: /etc/fstab
-        line: "UUID={{ disk_uuid.stdout }} /mnt/data ext4 defaults 0 2"
-        state: present
-
-    - name: 6/6 Mount disk
-      command: mount -a
+    - name: 4/4 FStab
+      mount:
+        path: /mnt/data
+        src: /dev/sdb1
+        fstype: ext4
+        opts: defaults
+        state: mounted
