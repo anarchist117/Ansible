@@ -1,5 +1,5 @@
 - name: Prepare Rasberry Pi
-  hosts: pi
+  hosts: worker
   gather_facts: no
   tasks:
     - name: FAN speed change
