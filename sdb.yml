@@ -1,38 +1,37 @@
 - name: Prepare /dev/sdb
-  hosts: control
+  hosts: pi2
+  gather_facts: no
   tasks:
-    - name: 1/5 GPT
-      parted:
-        device: /dev/sdb
-        number: 1
-        label: gpt
-        state: present
-
-    - name: 2/5 Partition
-      parted:
-        device: /dev/sdb
-        number: 1
-        state: present
-        part_type: primary
-        fs_type: ext4
-        part_start: 1MiB
-        part_end: 100%
-
-    - name: 2/5 Filesystem
-      filesystem:
-        fstype: ext4
-        dev: /dev/sdb1
-
-    - name: 3/5 Mountpoint
+    - name: 1/5 Mountpoint
       file:
         path: /mnt/data
         state: directory
         mode: '0755'
 
-    - name: 4/4 FStab
+    - name: 2/5 Partition
+      parted:
+        label: gpt
+        device: /dev/sdb
+        number: 1
+        state: present
+        part_start: 10MiB
+        part_end: 100%
+        align: optimal
+
+    - name: 3/5 Filesystem
+      filesystem:
+        fstype: ext4
+        dev: /dev/sdb1
+
+    - name: 4/5 PARTUUID
+      command: blkid -s PARTUUID -o value /dev/sdb1
+      register: partuuid
+      changed_when: false
+
+    - name: 5/5 FStab
       mount:
+        src: "PARTUUID={{ partuuid.stdout }}"
         path: /mnt/data
-        src: /dev/sdb1
         fstype: ext4
         opts: defaults
         state: mounted
