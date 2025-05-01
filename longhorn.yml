@@ -1,6 +1,6 @@
 ---
 - name: Install Longhorn
-  hosts: all
+  hosts: worker
 
   tasks:
     - name: Installation Requirements
