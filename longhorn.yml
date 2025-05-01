@@ -13,8 +13,9 @@
           - gawk          # awk
           - open-iscsi
           - nfs-common
-          - jq
           - cryptsetup
+          - dmsetup
+          - jq
         state: present
 
     - name: Enable kernel modules
