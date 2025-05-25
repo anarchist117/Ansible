@@ -3,7 +3,7 @@
   gather_facts: no
   tasks:
     - name: Edit /root/.bashrc
-      ansible.builtin.lineinfile:
+      lineinfile:
         path: /root/.bashrc
         line: "{{ item }}"
         state: present
