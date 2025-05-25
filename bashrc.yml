@@ -2,9 +2,13 @@
   hosts: control
   gather_facts: no
   tasks:
-    - name: Append lines to .bashrc
-      ansible.builtin.shell: echo "{{ item }}" >> /root/.bashrc
+    - name: Edit /root/.bashrc
+      ansible.builtin.lineinfile:
+        path: /root/.bashrc
+        line: "{{ item }}"
+        state: present
       loop:
+        - "source <(kubectl completion bash)"
         - "export EDITOR=nano"
         - "alias ll='ls -la'"
         - "alias k=kubectl"
