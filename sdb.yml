@@ -33,5 +33,5 @@
         src: "PARTUUID={{ partuuid.stdout }}"
         path: /mnt/data
         fstype: ext4
-        opts: defaults
+        opts: defaults,nofail
         state: mounted
